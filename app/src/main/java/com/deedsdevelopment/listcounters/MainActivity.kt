@@ -4,16 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.deedsdevelopment.listcounters.DBHandler
-import com.deedsdevelopment.listcounters.Counters
-import com.deedsdevelopment.listcounters.CounterRecyclerAdapter
+import com.deedsdevelopment.listcounters.adapter.CounterRecyclerAdapter
+import com.deedsdevelopment.listcounters.database.DBHandler
+import com.deedsdevelopment.listcounters.model.Counters
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initViews()
         initOperations()
-        //initDB()
+        initDB()
         setSupportActionBar(toolbar)
 
         /*val rv = findViewById<RecyclerView>(R.id.recycler_view)
@@ -54,7 +52,10 @@ class MainActivity : AppCompatActivity() {
     fun initDB() {
         dbHandler = DBHandler(this)
         listCounters = (dbHandler as DBHandler).counter()
-        counterRecyclerAdapter = CounterRecyclerAdapter(countersList = listCounters, context = applicationContext)
+        counterRecyclerAdapter = CounterRecyclerAdapter(
+            countersList = listCounters,
+            context = applicationContext
+        )
         (recyclerView as RecyclerView).adapter = counterRecyclerAdapter
     }
 
@@ -63,7 +64,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         fab = findViewById(R.id.fab) as FloatingActionButton
         recyclerView = findViewById(R.id.recycler_view) as RecyclerView
-        counterRecyclerAdapter = CounterRecyclerAdapter(countersList = listCounters, context = applicationContext)
+        counterRecyclerAdapter = CounterRecyclerAdapter(
+            countersList = listCounters,
+            context = applicationContext
+        )
         linearLayoutManager = LinearLayoutManager(applicationContext)
         (recyclerView as RecyclerView).layoutManager = linearLayoutManager
     }
@@ -77,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
@@ -86,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         if (id == R.id.action_delete) {
             val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Yes will delete all counters")
                 .setPositiveButton("YES", { dialog, i ->
-                    dbHandler!!.deleteAllTasks()
+                    dbHandler!!.deleteAllCounters()
                     initDB()
                     dialog.dismiss()
                 })

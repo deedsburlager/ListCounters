@@ -1,14 +1,17 @@
-package com.deedsdevelopment.listcounters
+package com.deedsdevelopment.listcounters.database
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.deedsdevelopment.listcounters.Counters
+import com.deedsdevelopment.listcounters.model.Counters
 import android.util.Log
 import java.util.*
 
-class DBHandler(context: Context) : SQLiteOpenHelper(context, DBHandler.DB_NAME, null, DBHandler.DB_VERSION)  {
+class DBHandler(context: Context) : SQLiteOpenHelper(context,
+    DB_NAME, null,
+    DB_VERSION
+)  {
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_TABLE = "CREATE TABLE $TABLE_NAME (" +
                 ID + " INTEGER PRIMARY KEY," +

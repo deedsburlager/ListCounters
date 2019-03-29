@@ -3,12 +3,11 @@ package com.deedsdevelopment.listcounters
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_create_update.*
-import com.deedsdevelopment.listcounters.Counters
-import com.deedsdevelopment.listcounters.DBHandler
+import com.deedsdevelopment.listcounters.database.DBHandler
+import com.deedsdevelopment.listcounters.model.Counters
 
 
 class CreateUpdateActivity : AppCompatActivity() {
@@ -32,7 +31,7 @@ class CreateUpdateActivity : AppCompatActivity() {
             val counters: Counters = dbHandler!!.getCounter(intent.getIntExtra("Id",0))
             input_counter_name.setText(counters.name)
             input_counter_tally.setText(counters.tally)
-            swt_completed.isChecked = counters.completed == "Y"
+            swt_completed.isSelected = counters.completed == "Y"
             btn_delete.visibility = View.VISIBLE
         }
     }
@@ -41,20 +40,22 @@ class CreateUpdateActivity : AppCompatActivity() {
         btn_save.setOnClickListener({
             var success: Boolean = false
             if (!isEditMode) {
-                val counters: Counters = Counters()
+                val counters: Counters =
+                    Counters()
                 counters.name = input_counter_name.text.toString()
                 counters.tally = input_counter_tally.text.toString()
-                if (swt_completed.isChecked)
+                if (swt_completed.isSelected)
                     counters.completed = "Y"
                 else
                     counters.completed = "N"
                 success = dbHandler?.addCounter(counters) as Boolean
             } else {
-                val counters: Counters = Counters()
+                val counters: Counters =
+                    Counters()
                 counters.id = intent.getIntExtra("Id", 0)
                 counters.name = input_counter_name.text.toString()
                 counters.tally = input_counter_tally.text.toString()
-                if (swt_completed.isChecked)
+                if (swt_completed.isSelected)
                     counters.completed = "Y"
                 else
                     counters.completed = "N"

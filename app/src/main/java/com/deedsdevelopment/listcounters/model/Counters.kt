@@ -1,4 +1,4 @@
-package com.deedsdevelopment.listcounters
+package com.deedsdevelopment.listcounters.model
 
 class Counters {
 
