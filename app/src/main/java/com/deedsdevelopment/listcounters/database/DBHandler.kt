@@ -53,7 +53,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context,
         return counters
     }
     //List
-    fun counter() {
+    fun counter(): List<Counters> {
         val counterList = ArrayList<Counters>()
         val db = writableDatabase
         val selectQuery = "SELECT  * FROM $TABLE_NAME"
@@ -70,6 +70,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context,
                 } while (cursor.moveToNext())
             }
         }
+        cursor.close()
+        return counterList
     }
     fun updateCounter(counters: Counters): Boolean{
         val db = this.writableDatabase

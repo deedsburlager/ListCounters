@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.deedsdevelopment.listcounters.R.layout.activity_create_update
 import kotlinx.android.synthetic.main.activity_create_update.*
 import com.deedsdevelopment.listcounters.database.DBHandler
 import com.deedsdevelopment.listcounters.model.Counters
@@ -17,7 +18,7 @@ class CreateUpdateActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_update)
+        setContentView(activity_create_update)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initDB()
         initOperations()
@@ -37,7 +38,7 @@ class CreateUpdateActivity : AppCompatActivity() {
     }
 
     private fun initOperations() {
-        btn_save.setOnClickListener({
+        btn_save.setOnClickListener {
             var success: Boolean = false
             if (!isEditMode) {
                 val counters: Counters =
@@ -64,21 +65,21 @@ class CreateUpdateActivity : AppCompatActivity() {
 
             if (success)
                 finish()
-        })
+        }
 
-        btn_delete.setOnClickListener({
+        btn_delete.setOnClickListener {
             val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Yes will delete counter.")
-                .setPositiveButton("YES", { dialog, i ->
+                .setPositiveButton("YES") { dialog, i ->
                     val success = dbHandler?.deleteCounter(intent.getIntExtra("Id", 0)) as Boolean
                     if (success)
                         finish()
                     dialog.dismiss()
-                })
-                .setNegativeButton("NO", { dialog, i ->
+                }
+                .setNegativeButton("NO") { dialog, i ->
                     dialog.dismiss()
-                })
+                }
             dialog.show()
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

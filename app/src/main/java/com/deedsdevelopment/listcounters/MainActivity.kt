@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deedsdevelopment.listcounters.R.id.action_delete
 import com.deedsdevelopment.listcounters.adapter.CounterRecyclerAdapter
 import com.deedsdevelopment.listcounters.database.DBHandler
 import com.deedsdevelopment.listcounters.model.Counters
@@ -18,11 +19,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var counterRecyclerAdapter: CounterRecyclerAdapter? = null;
+    var counterRecyclerAdapter: CounterRecyclerAdapter? = null
     var fab: FloatingActionButton? = null
     var recyclerView: RecyclerView? = null
     var dbHandler: DBHandler? = null
-    var listCounters: List<Counters> = ArrayList<Counters>()
+    var listCounters: List<Counters> = ArrayList()
     var linearLayoutManager: LinearLayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,23 +33,8 @@ class MainActivity : AppCompatActivity() {
         initOperations()
         initDB()
         setSupportActionBar(toolbar)
-
-        /*val rv = findViewById<RecyclerView>(R.id.recycler_view)
-        rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val counters = ArrayList<Counters>()
-
-        val adapter = CounterRecyclerAdapter(counters)
-        rv.adapter = adapter
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-            findViewById(R.id.fab).setOnClickListener {
-                startActivity(Intent(applicationContext, RecyclerViewActivity::class.java))
-            }
-        }
-        */
          }
+
     fun initDB() {
         dbHandler = DBHandler(this)
         listCounters = (dbHandler as DBHandler).counter()
@@ -60,10 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initViews() {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        fab = findViewById(R.id.fab) as FloatingActionButton
-        recyclerView = findViewById(R.id.recycler_view) as RecyclerView
+        fab = findViewById(R.id.fab)
+        recyclerView = findViewById(R.id.recycler_view)
         counterRecyclerAdapter = CounterRecyclerAdapter(
             countersList = listCounters,
             context = applicationContext
@@ -73,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initOperations() {
-        fab?.setOnClickListener { view ->
+        fab?.setOnClickListener {
             val i = Intent(applicationContext, CreateUpdateActivity::class.java)
             i.putExtra("Mode", "A")
             startActivity(i)
@@ -87,16 +73,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.action_delete) {
-            val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Yes will delete all counters")
-                .setPositiveButton("YES", { dialog, i ->
+        if (id == action_delete) {
+            val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Delete all counters?")
+                .setPositiveButton("YES") { dialog, i ->
                     dbHandler!!.deleteAllCounters()
                     initDB()
                     dialog.dismiss()
-                })
-                .setNegativeButton("NO", { dialog, i ->
+                }
+                .setNegativeButton("NO") { dialog, i ->
                     dialog.dismiss()
-                })
+                }
             dialog.show()
             return true
         }
