@@ -32,7 +32,7 @@ class CreateUpdateActivity : AppCompatActivity() {
             val counters: Counters = dbHandler!!.getCounter(intent.getIntExtra("Id",0))
             input_counter_name.setText(counters.name)
             input_counter_tally.setText(counters.tally)
-            swt_completed.isSelected = counters.completed == "Y"
+           /* swt_completed.isSelected = counters.completed == "Y"*/
             btn_delete.visibility = View.VISIBLE
         }
     }
@@ -45,10 +45,10 @@ class CreateUpdateActivity : AppCompatActivity() {
                     Counters()
                 counters.name = input_counter_name.text.toString()
                 counters.tally = input_counter_tally.text.toString()
-                if (swt_completed.isSelected)
+                /*if (swt_completed.isSelected)
                     counters.completed = "Y"
                 else
-                    counters.completed = "N"
+                    counters.completed = "N"*/
                 success = dbHandler?.addCounter(counters) as Boolean
             } else {
                 val counters: Counters =
@@ -56,10 +56,10 @@ class CreateUpdateActivity : AppCompatActivity() {
                 counters.id = intent.getIntExtra("Id", 0)
                 counters.name = input_counter_name.text.toString()
                 counters.tally = input_counter_tally.text.toString()
-                if (swt_completed.isSelected)
+                /*if (swt_completed.isSelected)
                     counters.completed = "Y"
                 else
-                    counters.completed = "N"
+                    counters.completed = "N"*/
                 success = dbHandler?.updateCounter(counters) as Boolean
             }
 
